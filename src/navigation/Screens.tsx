@@ -23,6 +23,16 @@ export default () => {
         component={Components}
         options={screenOptions.components}
       />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Checkin"
+        component={Profile}
+        options={{headerShown: true}}
+      />
 
       <Stack.Screen
         name="Articles"
@@ -32,11 +42,8 @@ export default () => {
 
       <Stack.Screen name="Pro" component={Pro} options={screenOptions.pro} />
 
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{headerShown: false}}
-      />
+      
+      
 
       <Stack.Screen
         name="Register"

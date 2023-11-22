@@ -1,7 +1,11 @@
-import React, {useCallback, useState} from 'react';
+// Home.tsx
+import React, { useCallback, useState } from 'react';
+import { useData, useTheme, useTranslation } from '../hooks/';
+import { Block, Product } from '../components/';
+import SearchInputBlock from '../components/SearchInput';
 
-import {useData, useTheme, useTranslation} from '../hooks/';
-import {Block, Button, Image, Input, Product, Text} from '../components/';
+import { ImageSourcePropType } from 'react-native';
+import ToggleButton from '../components/ToggleButton';
 
 const Home = () => {
   const {t} = useTranslation();
@@ -11,21 +15,19 @@ const Home = () => {
   const {assets, colors, fonts, gradients, sizes} = useTheme();
 
   const handleProducts = useCallback(
-    (tab: number) => {
-      setTab(tab);
-      setProducts(tab === 0 ? following : trending);
+    (selectedTab: number) => {
+      setTab(selectedTab);
+      setProducts(selectedTab === 0 ? following : trending);
     },
     [following, trending, setTab, setProducts],
   );
 
   return (
     <Block>
-      {/* search input */}
-      <Block color={colors.card} flex={0} padding={sizes.padding}>
-        <Input search placeholder={t('common.search')} />
-      </Block>
+      {/* Search input */}
+      <SearchInputBlock />
 
-      {/* toggle products list */}
+      {/* Toggle products list */}
       <Block
         row
         flex={0}
@@ -33,61 +35,17 @@ const Home = () => {
         justify="center"
         color={colors.card}
         paddingBottom={sizes.sm}>
-        <Button onPress={() => handleProducts(0)}>
-          <Block row align="center">
-            <Block
-              flex={0}
-              radius={6}
-              align="center"
-              justify="center"
-              marginRight={sizes.s}
-              width={sizes.socialIconSize}
-              height={sizes.socialIconSize}
-              gradient={gradients?.[tab === 0 ? 'primary' : 'secondary']}>
-              <Image source={assets.extras} color={colors.white} radius={0} />
-            </Block>
-            <Text p font={fonts?.[tab === 0 ? 'medium' : 'normal']}>
-              {t('home.following')}
-            </Text>
-          </Block>
-        </Button>
-        <Block
-          gray
-          flex={0}
-          width={1}
-          marginHorizontal={sizes.sm}
-          height={sizes.socialIconSize}
-        />
-        <Button onPress={() => handleProducts(1)}>
-          <Block row align="center">
-            <Block
-              flex={0}
-              radius={6}
-              align="center"
-              justify="center"
-              marginRight={sizes.s}
-              width={sizes.socialIconSize}
-              height={sizes.socialIconSize}
-              gradient={gradients?.[tab === 1 ? 'primary' : 'secondary']}>
-              <Image
-                radius={0}
-                color={colors.white}
-                source={assets.documentation}
-              />
-            </Block>
-            <Text p font={fonts?.[tab === 1 ? 'medium' : 'normal']}>
-              {t('home.trending')}
-            </Text>
-          </Block>
-        </Button>
+        <ToggleButton index={0} tab={tab} handleProducts={handleProducts} assets={assets.extras as ImageSourcePropType} {...{ colors, fonts, sizes, t }} />
+        <Block gray flex={0} width={1} marginHorizontal={sizes.sm} height={sizes.socialIconSize} />
+        <ToggleButton index={1} tab={tab} handleProducts={handleProducts} assets={assets.documentation as ImageSourcePropType} {...{ colors, fonts, sizes, t }} />
       </Block>
 
-      {/* products list */}
+      {/* Products list */}
       <Block
         scroll
         paddingHorizontal={sizes.padding}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: sizes.l}}>
+        contentContainerStyle={{ paddingBottom: sizes.l }}>
         <Block row wrap="wrap" justify="space-between" marginTop={sizes.sm}>
           {products?.map((product) => (
             <Product {...product} key={`card-${product?.id}`} />

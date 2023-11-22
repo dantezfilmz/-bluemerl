@@ -73,14 +73,14 @@ const DrawerContent = (
   const labelColor = colors.text;
 
   const handleNavigation = useCallback(
-    (to) => {
+    (to:string) => {
       setActive(to);
       navigation.navigate(to);
     },
     [navigation, setActive],
   );
 
-  const handleWebLink = useCallback((url) => Linking.openURL(url), []);
+  const handleWebLink = useCallback((url: string) => Linking.openURL(url), []);
 
   // screen list for Drawer menu
   const screens = [
@@ -89,7 +89,7 @@ const DrawerContent = (
     {name: t('screens.articles'), to: 'Articles', icon: assets.document},
     {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
-    {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
+    {name: t('screens.checkin'), to: 'Pro', icon: assets.settings},
     {name: t('screens.register'), to: 'Register', icon: assets.register},
     {name: t('screens.extra'), to: 'Pro', icon: assets.extras},
   ];
